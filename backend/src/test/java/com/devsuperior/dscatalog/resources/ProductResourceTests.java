@@ -12,14 +12,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.List;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -48,7 +45,6 @@ public class ProductResourceTests {
 	private Long dependentId;
 
 	private ProductDTO productDTO;
-	private PageImpl<ProductDTO> page;
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -57,9 +53,6 @@ public class ProductResourceTests {
 		dependentId = 3L;
 
 		productDTO = Factory.createProductDTO();
-		page = new PageImpl<>(List.of(productDTO));
-
-		when(service.findAllPaged(any())).thenReturn(page);
 
 		when(service.findById(existingId)).thenReturn(productDTO);
 		when(service.findById(nonExistingId)).thenThrow(ResourceNotFoundException.class);
